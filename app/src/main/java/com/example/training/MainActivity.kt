@@ -2,78 +2,43 @@ package com.example.training
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.appcompat.widget.SearchView
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import java.util.*
-import java.util.Locale.*
-import kotlin.collections.ArrayList
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var newRecyclerView: RecyclerView
-    private lateinit var newSearchView: SearchView
-    private lateinit var newArrayList: ArrayList<SettingsCard>
-    lateinit var preferences : Array<String>
-    private lateinit var adapter: Adapter
-
+    lateinit var bottomNav : BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        preferences = arrayOf(
-            "Temperatura",
-            "Vreme",
-            "Umiditate"
-        )
-
-        newRecyclerView = findViewById(R.id.recyclerView)
-        newSearchView = findViewById(R.id.searchView)
-        newRecyclerView.layoutManager = LinearLayoutManager(this)
-        newRecyclerView.setHasFixedSize(true)
-
-        newArrayList = arrayListOf<SettingsCard>()
-        adapter = Adapter(newArrayList)
-        getUserData()
-
-        newSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                filterList(newText)
-                return true
-            }
-
-        })
-    }
-
-    private fun getUserData(){
-        for(i in preferences.indices){
-            val setting = SettingsCard(preferences[i])
-            newArrayList.add(setting)
-        }
-        newRecyclerView.adapter = adapter
-    }
-
-    private fun filterList(query: String?) {
-
-        if (query != null) {
-            val filteredList = ArrayList<SettingsCard>()
-            for (i in newArrayList) {
-                if (i.title.lowercase(ROOT).contains(query)) {
-                    filteredList.add(i)
+        loadFragment(WeatherFragment())
+        bottomNav = findViewById(R.id.bottomNav) as BottomNavigationView
+        bottomNav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.weather -> {
+                    loadFragment(WeatherFragment())
+                    true
+                }
+                R.id.preferences -> {
+                    loadFragment(PreferencesFragment())
+                    true
+                }
+                else -> {
+                    loadFragment(WeatherFragment())
+                    true
                 }
             }
-
-            if (filteredList.isEmpty()) {
-                Toast.makeText(this, "No Data found", Toast.LENGTH_SHORT).show()
-            } else {
-                adapter.setFilteredList(filteredList)
-            }
         }
+    }
+    private  fun loadFragment(fragment: Fragment){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container,fragment)
+        transaction.commit()
     }
 }
