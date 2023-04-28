@@ -7,8 +7,19 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/temperature"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Weather Fragment" />
+        android:layout_height="match_parent"></TextView>
+    <TextView
+        android:id="@+id/weather"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></TextView>
+    <TextView
+        android:id="@+id/humidity"
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></TextView>
+
 
 </FrameLayout>
