@@ -1,5 +1,6 @@
 package com.example.training
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,3 +34,4 @@ class Adapter(private var preferenceList : ArrayList<SettingsCard>) :
         notifyDataSetChanged()
     }
 }
+

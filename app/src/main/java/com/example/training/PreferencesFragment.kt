@@ -37,7 +37,7 @@ class PreferencesFragment : Fragment() {
 
         newArrayList = arrayListOf<SettingsCard>()
         adapter = Adapter(newArrayList)
-        getUserData()
+        map()
 
         newSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -54,8 +54,16 @@ class PreferencesFragment : Fragment() {
         return view
     }
 
-    private fun getUserData(){
-        for(i in preferences.indices){
+//    private fun map(){
+//        for(i in preferences.indices){
+//            val setting = SettingsCard(preferences[i])
+//            newArrayList.add(setting)
+//        }
+//        newRecyclerView.adapter = adapter
+//    }
+
+    private fun map() {
+        for (i in preferences.indices) {
             val setting = SettingsCard(preferences[i])
             newArrayList.add(setting)
         }

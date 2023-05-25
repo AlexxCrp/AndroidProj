@@ -43,22 +43,6 @@ class WeatherFragment : Fragment() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-//        val service: WeatherService = retrofit
-//            .create<WeatherService>(WeatherService::class.java)
-//
-//        val listCall: Call<WeatherResponse> = service.getCurrentWeather(
-//            coordinates.first, coordinates.second, "metric", apikey
-//        )
-
-//        listCall.enqueue(object : Callback<WeatherResponse>?, retrofit2 : Retrofit){
-//            override fun OnFailure(t: Throwable){
-//
-//            }
-//
-//            override fun onResponse(response: Response<WeatherResponse>){
-//
-//            }
-//        }
 
         val openWeatherMapApi = retrofit.create(WeatherService::class.java)
         openWeatherMapApi.getCurrentWeather(coordinates.first, coordinates.second, "metric", apikey).enqueue(object : Callback<WeatherResponse> {
@@ -68,9 +52,9 @@ class WeatherFragment : Fragment() {
                 val humidity = weatherResponse?.main?.humidity
                 val weatherType = weatherResponse?.weather?.firstOrNull()?.main
 
-                Log.d("TAG", "temp: $temperature")
-                Log.d("TAG", "hum: $humidity")
-                Log.d("TAG", "wea: $weatherType")
+                Log.d("INFO", "temp: $temperature")
+                Log.d("INFO", "hum: $humidity")
+                Log.d("INFO", "wea: $weatherType")
 
 
                 tempView.text = temperature
@@ -84,7 +68,6 @@ class WeatherFragment : Fragment() {
 
         return view
     }
-    @SuppressLint("MissingPermission")
     private fun getCurrentLocation(): Pair<Double?, Double?> {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -101,14 +84,13 @@ class WeatherFragment : Fragment() {
             val locationManager =
                 requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-            Log.d("TAG", "Location: $location")
 
             val latitude = location?.latitude
             val longitude = location?.longitude
 
 
-            Log.d("TAG", "Latitude: $latitude")
-            Log.d("TAG", "Longitude: $longitude")
+            Log.d("INFO", "Latitude: $latitude")
+            Log.d("INFO", "Longitude: $longitude")
 
 
             return Pair(latitude, longitude)
